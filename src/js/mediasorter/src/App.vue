@@ -3,7 +3,17 @@ import { computed, onMounted, ref } from 'vue'
 import { OP_COLS, SCAN_COLS, FAILED_OP_COLS, useSorter } from './composables/sorter'
 import type { SortOperation, Source } from './types'
 
-const { sources, loading, scan, scanning, sortOperations, fetchSources } = useSorter()
+const {
+  sources,
+  loading,
+  scan,
+  scanning,
+  sortOperations,
+  sort,
+  sortResult,
+  sorting,
+  fetchSources
+} = useSorter()
 
 onMounted(() => fetchSources())
 
@@ -16,9 +26,9 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
 
 <template>
   <div class="container">
+    <h3 class="title">MEDIASORTER</h3>
     <q-table
       flat
-      title="Scan sources"
       :hide-pagination="true"
       :rows="sources"
       :columns="SCAN_COLS"
@@ -29,6 +39,7 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
       v-model:selected="selected"
       :loading="loading"
       loading-label="Fetching scan sources"
+      table-class="full-w"
     />
 
     <div class="q-pa-md q-ml">
@@ -44,26 +55,58 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
       />
     </div>
 
-    <q-table
-      flat
-      dark
-      title="Sortable media"
-      hide-pagination
-      :rows="okOps"
-      row-key="input_path"
-      :columns="OP_COLS"
-      selection="multiple"
-      v-model:selected="selectedOps"
-      :loading="loading"
-      loading-label="Fetching scan sources"
+    <div v-if="sortResult.length === 0">
+      <q-table
+        flat
+        dark
+        title="Sortable media"
+        hide-pagination
+        :rows="okOps"
+        row-key="input_path"
+        :columns="OP_COLS"
+        selection="multiple"
+        v-model:selected="selectedOps"
+        :loading="loading"
+        loading-label="Fetching scan sources"
+      />
+
+      <q-table
+        v-if="nokOps.length > 0"
+        flat
+        title="Unsortable media"
+        :hide-pagination="true"
+        :rows="nokOps"
+        :bordered="false"
+        :wrap-cells="true"
+        :columns="FAILED_OP_COLS"
+        :dark="true"
+        selection="none"
+        :hide-header="true"
+        :hide-no-data="true"
+        :loading="loading"
+        loading-label="Fetching scan sources"
+        table-class="nok-table"
+      />
+    </div>
+
+    <q-btn
+      v-if="sortResult.length === 0"
+      color="secondary"
+      icon="check"
+      label="Sort"
+      outline
+      padding="0.7rem 2rem"
+      :loading="sorting"
+      :disable="selectedOps.length <= 0"
+      @click="() => sort(selectedOps)"
     />
 
+    <h3 v-if="sortResult.length > 0">Results</h3>
     <q-table
-      v-if="nokOps.length > 0"
+      v-if="sortResult.length > 0"
       flat
-      title="Unsortable media"
       :hide-pagination="true"
-      :rows="nokOps"
+      :rows="sortResult.filter((r) => !!r.exception)"
       :bordered="false"
       :wrap-cells="true"
       :columns="FAILED_OP_COLS"
@@ -75,20 +118,22 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
       loading-label="Fetching scan sources"
       table-class="nok-table"
     />
-
-    <div class="q-pa-md q-ml">
-      <div class="q-mt-md">Selected: {{ selectedOps }}</div>
-      <q-btn
-        color="secondary"
-        icon="check"
-        label="Sort"
-        outline
-        padding="0.7rem 2rem"
-        :loading="scanning"
-        :disable="selectedOps.length <= 0"
-        @click="() => scan(selected)"
-      />
-    </div>
+    <q-table
+      v-if="sortResult.length > 0"
+      flat
+      :hide-pagination="true"
+      :rows="sortResult.filter((r) => !r.exception)"
+      :bordered="false"
+      :wrap-cells="true"
+      :columns="FAILED_OP_COLS"
+      :dark="true"
+      selection="none"
+      :hide-header="true"
+      :hide-no-data="true"
+      :loading="loading"
+      loading-label="Fetching scan sources"
+      table-class="ok-table"
+    />
   </div>
 </template>
 
@@ -98,5 +143,21 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  align-items: center;
+
+  * {
+    width: 100%;
+  }
+
+  h3 {
+    margin-bottom: 0;
+  }
+}
+
+.title {
+  // margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  font-family: 'Rubik Wet Paint';
+  text-align: center;
 }
 </style>

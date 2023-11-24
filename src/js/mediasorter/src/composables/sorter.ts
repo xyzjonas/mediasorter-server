@@ -1,15 +1,59 @@
 import type { SortOperation, Source } from '@/types'
-import axios from 'axios'
 import { useQuasar } from 'quasar'
+import { useApi } from './api'
 import { ref } from 'vue'
-
-const api = axios.create({ baseURL: 'http://localhost:8000' })
 
 const sources = ref<Source[]>([])
 const loading = ref(false)
 
 const sortOperations = ref([])
 const scanning = ref(false)
+
+const sortResult = ref([])
+const sorting = ref(false)
+
+export const useSorter = () => {
+  const $q = useQuasar()
+  const { get, post } = useApi()
+
+  const fetchSources = () => {
+    loading.value = true
+    get('/')
+      .then((data) => (sources.value = data))
+      .finally(() => (loading.value = false))
+  }
+
+  const scan = (sources: Source[]) => {
+    sortOperations.value = []
+    sortResult.value = []
+
+    $q.loadingBar.start()
+    scanning.value = true
+
+    post('/scan', sources)
+      .then((data) => (sortOperations.value = data))
+      .finally(() => (scanning.value = false))
+  }
+
+  const sort = (ops: SortOperation[]) => {
+    sorting.value = true
+    post('/sort', ops)
+      .then((data) => (sortResult.value = data))
+      .finally(() => (sorting.value = false))
+  }
+
+  return {
+    fetchSources,
+    scan,
+    sort,
+    sources,
+    loading,
+    sortOperations,
+    scanning,
+    sorting,
+    sortResult
+  }
+}
 
 export const SCAN_COLS = [
   {
@@ -61,6 +105,24 @@ export const SCAN_COLS = [
 
 export const OP_COLS = [
   {
+    name: 'type',
+    label: 'Media',
+    field: (row: any) => row.type,
+    required: true,
+    align: 'left',
+    sortable: true,
+    format: (val: any) => `${val}`
+  },
+  {
+    name: 'oaction',
+    label: 'Action',
+    field: (row: any) => row.action,
+    required: true,
+    align: 'left',
+    sortable: true,
+    format: (val: any) => `${val}`
+  },
+  {
     name: 'input_path',
     label: 'Input',
     field: (row: any) => row.input_path,
@@ -102,83 +164,7 @@ export const FAILED_OP_COLS = [
     label: 'Error',
     align: 'left',
     field: (row: any) => row.exception,
-    format: (val: any) => `${val}`,
+    format: (val: any) => `${val ?? 'success'}`,
     sortable: false
   }
 ]
-
-export const useSorter = () => {
-  const $q = useQuasar()
-
-  const fetchSources = () => {
-    loading.value = true
-    $q.loadingBar.start()
-
-    api
-      .get('/')
-      .then((res) => (sources.value = res.data))
-      .catch((err) => {
-        $q.notify({
-          color: 'negative',
-          position: 'bottom',
-          message: err,
-          icon: 'report_problem'
-        })
-      })
-      .finally(() => {
-        $q.loadingBar.stop()
-        loading.value = false
-      })
-  }
-
-  const scan = (sources: Source[]) => {
-    $q.loadingBar.start()
-
-    api
-      .post('/scan', sources, { headers: { 'Content-type': 'application/json' } })
-      .then((res) => (sortOperations.value = res.data))
-      .catch((err) => {
-        console.error(err)
-        $q.notify({
-          color: 'negative',
-          position: 'bottom',
-          message: err.message,
-          icon: 'error'
-        })
-      })
-      .finally(() => {
-        $q.loadingBar.stop()
-        scanning.value = false
-      })
-  }
-
-  const sort = (ops: SortOperation[]) => {
-    $q.loadingBar.start()
-
-    api
-      .post('/scan', sources, { headers: { 'Content-type': 'application/json' } })
-      .then((res) => (sortOperations.value = res.data))
-      .catch((err) => {
-        console.error(err)
-        $q.notify({
-          color: 'negative',
-          position: 'bottom',
-          message: err.message,
-          icon: 'error'
-        })
-      })
-      .finally(() => {
-        $q.loadingBar.stop()
-        scanning.value = false
-      })
-  }
-
-  return {
-    fetchSources,
-    scan,
-    sources,
-    loading,
-    sortOperations,
-    scanning
-  }
-}

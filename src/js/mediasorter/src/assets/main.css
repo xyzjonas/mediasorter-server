@@ -1,8 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&family=Rubik+Wet+Paint&display=swap');
+
 body {
   color: #fdfdfd;
   background-color: #1d1d1d;
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* justify-items: center; */
+}
+
+#app {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  /* justify-content: center; */
+}
+
+@media screen and (max-width: 1440px) {
+  #app {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  #app {
+    width: 100%;
+  }
 }
 
 .nok-table {
   color: #c10015;
+}
+
+.ok-table {
+  color: #21BA45;
 }

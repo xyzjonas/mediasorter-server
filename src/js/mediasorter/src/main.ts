@@ -18,8 +18,8 @@ myApp.use(Quasar, {
   config: {
     loadingBar: {
       position: 'bottom',
-      color: 'primary',
-      size: '0.5rem'
+      color: 'secondary',
+      size: '1rem'
     }
   },
   plugins: {

@@ -3,18 +3,11 @@ from copy import deepcopy
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from mediasorter.lib.sorter import Operation
-from pydantic import BaseModel
 from mediasorter import MediaSorter, MediaSorterConfig, read_config
 from mediasorter.lib.config import ScanConfig
-import asyncio
+from mediasorter.lib.sorter import Operation
 
 config = read_config()
-
-
-class Foo(BaseModel):
-    x: str
-
 
 app = FastAPI()
 
@@ -41,13 +34,16 @@ async def scan(sources: list[ScanConfig]) -> list[Operation]:
     sorter = MediaSorter(config=config_copy)
     ops = await sorter.scan_all()
     for op in ops:
-        op.exception = str(op.exception)
+        op.exception = str(op.exception) if op.exception else None
     return ops
 
 
-@app.post("sort")
-def sort():
-    pass
+@app.post("/sort")
+async def sort(sort_operations: list[Operation]):
+    ops = await MediaSorter.commit_all(sort_operations)
+    for op in ops:
+        op.exception = str(op.exception) if op.exception else None
+    return ops
 
 
 @app.get("config", response_model=MediaSorterConfig)
