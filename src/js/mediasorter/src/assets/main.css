@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&family=Rubik+Wet+Paint&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 
 body {
   color: #fdfdfd;
@@ -13,6 +14,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   /* justify-content: center; */
+  font-family: 'Nunito', sans-serif;
 }
 
 @media screen and (max-width: 1440px) {

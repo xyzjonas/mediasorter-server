@@ -1,11 +1,18 @@
+import os.path
 from copy import deepcopy
 
 import uvicorn
+from distutils.sysconfig import get_python_lib
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from mediasorter import MediaSorter, MediaSorterConfig, read_config
 from mediasorter.lib.config import ScanConfig
 from mediasorter.lib.sorter import Operation
+from starlette.staticfiles import StaticFiles
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 config = read_config()
 
@@ -14,15 +21,15 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173"
+        "http://localhost:5173",
+        "http://localhost:8000"
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
-@app.get("/")
+@app.get("/scans")
 async def get_scans() -> list[ScanConfig]:
     return config.scan_sources
 
@@ -54,6 +61,13 @@ def get_config() -> MediaSorterConfig:
 @app.put("config")
 def put_config():
     raise NotImplemented
+
+
+if fe_dir := os.getenv("MEDIASORTER_FE_DIR", None):
+    app.mount("/", StaticFiles(directory=fe_dir, html=True))
+else:
+    bundled_fe_dir_path = os.path.join(get_python_lib(), "src", "js", "mediasorter", "dist")
+    app.mount("/", StaticFiles(directory=bundled_fe_dir_path, html=True))
 
 
 def main():

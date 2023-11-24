@@ -101,12 +101,12 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
       @click="() => sort(selectedOps)"
     />
 
-    <h3 v-if="sortResult.length > 0">Results</h3>
+    <h4 v-if="sortResult.length > 0">Results</h4>
     <q-table
       v-if="sortResult.length > 0"
       flat
       :hide-pagination="true"
-      :rows="sortResult.filter((r) => !!r.exception)"
+      :rows="sortResult.filter((r: SortOperation) => !!r.exception)"
       :bordered="false"
       :wrap-cells="true"
       :columns="FAILED_OP_COLS"
@@ -122,7 +122,7 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
       v-if="sortResult.length > 0"
       flat
       :hide-pagination="true"
-      :rows="sortResult.filter((r) => !r.exception)"
+      :rows="sortResult.filter((r: SortOperation) => !r.exception)"
       :bordered="false"
       :wrap-cells="true"
       :columns="FAILED_OP_COLS"
@@ -149,7 +149,7 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
     width: 100%;
   }
 
-  h3 {
+  h4 {
     margin-bottom: 0;
   }
 }

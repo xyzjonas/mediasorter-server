@@ -1,5 +1,5 @@
 import type { SortOperation, Source } from '@/types'
-import { useQuasar } from 'quasar'
+import { useQuasar, type QTableColumn } from 'quasar'
 import { useApi } from './api'
 import { ref } from 'vue'
 
@@ -18,7 +18,7 @@ export const useSorter = () => {
 
   const fetchSources = () => {
     loading.value = true
-    get('/')
+    get('/scans')
       .then((data) => (sources.value = data))
       .finally(() => (loading.value = false))
   }
@@ -58,10 +58,10 @@ export const useSorter = () => {
 export const SCAN_COLS = [
   {
     name: 'src_path',
-    required: true,
     label: 'Source',
+    field: 'src_path',
+    required: true,
     align: 'left',
-    field: (row: any) => row.src_path,
     format: (val: any) => `${val}`,
     sortable: true
   },
@@ -101,7 +101,7 @@ export const SCAN_COLS = [
     format: (val: any) => `${val}`,
     sortable: true
   }
-]
+] satisfies QTableColumn[]
 
 export const OP_COLS = [
   {
@@ -143,7 +143,7 @@ export const OP_COLS = [
     format: (val: any) => `${val}`,
     sortable: true
   }
-]
+] satisfies QTableColumn[]
 
 export const FAILED_OP_COLS = [
   {
@@ -151,7 +151,7 @@ export const FAILED_OP_COLS = [
     required: true,
     label: 'Input',
     align: 'left',
-    field: (row: any) => row.input_path,
+    field: 'input_path',
     format: (val: any) => {
       const parts = `${val}`.split('/')
       return parts[parts.length - 1]
@@ -163,8 +163,8 @@ export const FAILED_OP_COLS = [
     required: true,
     label: 'Error',
     align: 'left',
-    field: (row: any) => row.exception,
+    field: 'exception',
     format: (val: any) => `${val ?? 'success'}`,
     sortable: false
   }
-]
+] satisfies QTableColumn[]

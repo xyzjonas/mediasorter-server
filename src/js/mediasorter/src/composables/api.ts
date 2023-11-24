@@ -1,16 +1,16 @@
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import { useQuasar } from 'quasar'
 
-const api = axios.create({ baseURL: 'http://localhost:8000' })
+const api = axios.create({ baseURL: import.meta.env.VITE_API_URL })
 
 export const useApi = () => {
   const $q = useQuasar()
 
   const get = async (url: string) => {
     try {
-      const res = await api.get('/')
+      const res = await api.get(url)
       return res.data
-    } catch (error) {
+    } catch (error: any) {
       $q.notify({
         color: 'negative',
         position: 'bottom',
@@ -26,7 +26,7 @@ export const useApi = () => {
     try {
       const res = await api.post(url, data, { headers: { 'Content-type': 'application/json' } })
       return res.data
-    } catch (error) {
+    } catch (error: any) {
       $q.notify({
         color: 'negative',
         position: 'bottom',
