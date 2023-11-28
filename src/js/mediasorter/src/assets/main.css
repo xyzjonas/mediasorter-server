@@ -10,29 +10,15 @@ body {
 }
 
 #app {
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  /* justify-content: center; */
+  margin-inline: auto;
   font-family: 'Nunito', sans-serif;
-}
-
-@media screen and (max-width: 1440px) {
-  #app {
-    width: 80%;
-  }
-}
-
-@media screen and (max-width: 1080px) {
-  #app {
-    width: 100%;
-  }
+  width: min(98%, 1440px);
 }
 
 .nok-table {
-  color: #c10015;
+  color: #da3e52;
 }
 
 .ok-table {
-  color: #21BA45;
+  color: #96E6B3;
 }

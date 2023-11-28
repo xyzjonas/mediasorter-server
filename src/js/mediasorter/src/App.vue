@@ -29,7 +29,6 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
     <h3 class="title">MEDIASORTER</h3>
     <q-table
       flat
-      :hide-pagination="true"
       :rows="sources"
       :columns="SCAN_COLS"
       :dark="true"
@@ -40,6 +39,7 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
       :loading="loading"
       loading-label="Fetching scan sources"
       table-class="full-w"
+      :rows-per-page-options="[0]"
     />
 
     <div class="q-pa-md q-ml">
@@ -60,7 +60,6 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
         flat
         dark
         title="Sortable media"
-        hide-pagination
         :rows="okOps"
         row-key="input_path"
         :columns="OP_COLS"
@@ -68,13 +67,13 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
         v-model:selected="selectedOps"
         :loading="loading"
         loading-label="Fetching scan sources"
+        :rows-per-page-options="[20, 0]"
       />
 
+      <h5 class="nok-table">Unsortable media</h5>
       <q-table
         v-if="nokOps.length > 0"
         flat
-        title="Unsortable media"
-        :hide-pagination="true"
         :rows="nokOps"
         :bordered="false"
         :wrap-cells="true"
@@ -86,6 +85,7 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
         :loading="loading"
         loading-label="Fetching scan sources"
         table-class="nok-table"
+        :rows-per-page-options="[0]"
       />
     </div>
 
@@ -101,11 +101,10 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
       @click="() => sort(selectedOps)"
     />
 
-    <h4 v-if="sortResult.length > 0">Results</h4>
+    <h5 v-if="sortResult.length > 0">Results</h5>
     <q-table
       v-if="sortResult.length > 0"
       flat
-      :hide-pagination="true"
       :rows="sortResult.filter((r: SortOperation) => !!r.exception)"
       :bordered="false"
       :wrap-cells="true"
@@ -117,6 +116,7 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
       :loading="loading"
       loading-label="Fetching scan sources"
       table-class="nok-table"
+      :rows-per-page-options="[0]"
     />
     <q-table
       v-if="sortResult.length > 0"
@@ -133,6 +133,7 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
       :loading="loading"
       loading-label="Fetching scan sources"
       table-class="ok-table"
+      :rows-per-page-options="[0]"
     />
   </div>
 </template>
@@ -149,8 +150,9 @@ const nokOps = computed(() => sortOperations.value.filter((op: SortOperation) =>
     width: 100%;
   }
 
-  h4 {
-    margin-bottom: 0;
+  h4,
+  h5 {
+    margin-bottom: 0.5rem;
   }
 }
 
