@@ -2,6 +2,7 @@ import os.path
 from copy import deepcopy
 
 import uvicorn
+import argparse
 from distutils.sysconfig import get_python_lib
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -71,7 +72,13 @@ else:
 
 
 def main():
-    uvicorn.run(app)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--host", default="0.0.0.0")
+    parser.add_argument("--port", default=8080, type=int)
+
+    args = parser.parse_args()
+
+    uvicorn.run(app, host=args.host, port=args.port)
 
 
 if __name__ == "__main__":
