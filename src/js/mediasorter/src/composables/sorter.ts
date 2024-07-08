@@ -19,7 +19,7 @@ export const useSorter = () => {
   const fetchSources = () => {
     loading.value = true
     get('/scans')
-      .then((data) => (sources.value = data))
+      .then((data) => sources.value = data)
       .finally(() => (loading.value = false))
   }
 
@@ -58,7 +58,7 @@ export const useSorter = () => {
 export const SCAN_COLS = [
   {
     name: 'src_path',
-    label: 'Source',
+    label: 'Directory',
     field: 'src_path',
     required: true,
     align: 'left',
@@ -68,7 +68,7 @@ export const SCAN_COLS = [
   {
     name: 'action',
     required: true,
-    label: 'Action',
+    label: 'Operation',
     align: 'left',
     field: (row: any) => row.action,
     format: (val: any) => `${val}`,
@@ -86,7 +86,7 @@ export const SCAN_COLS = [
   {
     name: 'tv_shows_output',
     required: true,
-    label: 'Shows output',
+    label: 'TV output',
     align: 'left',
     field: (row: any) => row.tv_shows_output,
     format: (val: any) => `${val}`,
@@ -106,7 +106,7 @@ export const SCAN_COLS = [
 export const OP_COLS = [
   {
     name: 'type',
-    label: 'Media',
+    label: 'Type',
     field: (row: any) => row.type,
     required: true,
     align: 'left',
@@ -115,7 +115,7 @@ export const OP_COLS = [
   },
   {
     name: 'oaction',
-    label: 'Action',
+    label: 'Operation',
     field: (row: any) => row.action,
     required: true,
     align: 'left',
@@ -124,7 +124,7 @@ export const OP_COLS = [
   },
   {
     name: 'input_path',
-    label: 'Input',
+    label: 'Media file',
     field: (row: any) => row.input_path,
     required: true,
     align: 'left',

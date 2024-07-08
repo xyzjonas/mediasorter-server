@@ -1,17 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&family=Rubik+Wet+Paint&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
 
 body {
   color: #fdfdfd;
   background-color: #1d1d1d;
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* justify-items: center; */
 }
 
 #app {
   margin-inline: auto;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Roboto', sans-serif;
   width: min(98%, 1440px);
 }
 

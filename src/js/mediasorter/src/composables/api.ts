@@ -1,9 +1,13 @@
 import axios from 'axios'
 import { useQuasar } from 'quasar'
 
-const api = axios.create({ baseURL: import.meta.env.VITE_API_URL })
+const baseURL = import.meta.env.VITE_API_URL
+const api = axios.create({ baseURL })
 
 export const useApi = () => {
+
+  console.info(`BASE URL: ${baseURL}`)
+
   const $q = useQuasar()
 
   const get = async (url: string) => {
@@ -17,6 +21,7 @@ export const useApi = () => {
         message: error.message,
         icon: 'report_problem'
       })
+      throw error
     } finally {
       $q.loadingBar.stop()
     }

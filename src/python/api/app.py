@@ -17,7 +17,11 @@ load_dotenv()
 
 config = read_config()
 
-app = FastAPI()
+app = FastAPI(
+    title="Mediasorter",
+    summary="Remotely sort your media files!",
+    version="0.1.4",
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,6 +33,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/scans")
 async def get_scans() -> list[ScanConfig]:
@@ -54,14 +59,14 @@ async def sort(sort_operations: list[Operation]):
     return ops
 
 
-@app.get("config", response_model=MediaSorterConfig)
+@app.get("/configuration", response_model=MediaSorterConfig)
 def get_config() -> MediaSorterConfig:
-    pass
+    return config
 
 
-@app.put("config")
-def put_config():
-    raise NotImplemented
+# @app.put("/configuration")
+# def put_config():
+#     raise NotImplemented
 
 
 if fe_dir := os.getenv("MEDIASORTER_FE_DIR", None):
