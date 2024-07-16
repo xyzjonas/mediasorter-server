@@ -1,6 +1,5 @@
 <template>
   <main>
-    {{}}
     <q-table
       flat
       title="Media directories"

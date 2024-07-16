@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from mediasorter import MediaSorter, MediaSorterConfig, read_config
 from mediasorter.lib.config import ScanConfig
-from mediasorter.lib.sorter import Operation
+from mediasorter.lib.sort import Operation
 from starlette.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
@@ -20,7 +20,7 @@ config = read_config()
 app = FastAPI(
     title="Mediasorter",
     summary="Remotely sort your media files!",
-    version="0.1.4",
+    version="0.2.0",
 )
 
 app.add_middleware(

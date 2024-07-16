@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mediasorter-server"
-version = "0.1.4"
+version = "0.2.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
 license = "MIT"
@@ -21,7 +21,7 @@ mediasorter-server = "api.app:main"
 python = "^3.11"
 fastapi = "^0.104.1"
 uvicorn = "^0.24.0.post1"
-multimediasorter = "^1.4.0"
+multimediasorter = "^2"
 python-dotenv = "^1.0.0"
 
 
