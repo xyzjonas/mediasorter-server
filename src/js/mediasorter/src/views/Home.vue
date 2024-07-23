@@ -1,21 +1,6 @@
 <template>
   <main>
-    <q-table
-      flat
-      title="Media directories"
-      :rows="sources"
-      :columns="SCAN_COLS"
-      :dark="true"
-      row-key="src_path"
-      selection="single"
-      v-model:selected="selected"
-      :loading="loading"
-      loading-label="Fetching scan sources"
-      table-class="full-w"
-      hide-selected-banner
-      :rows-per-page-options="[0]"
-      no-data-label="No media directories configured."
-    />
+    <sources-table :sources="sources" v-model="selected" :loading="loading"/>
 
     <q-btn
       v-if="sources.length > 0"
@@ -34,9 +19,8 @@
       flat
       separator="vertical"
       bordered
-      dark
       :rows="okOps"
-      row-key="input_path"
+      :row-key="(row) => `${row.input_path},${row.output_path}`"
       :columns="OP_COLS"
       selection="multiple"
       v-model:selected="selectedOps"
@@ -121,6 +105,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { OP_COLS, SCAN_COLS, FAILED_OP_COLS, useSorter } from '@/composables/sorter'
 import type { SortOperation, Source } from '@/types'
+import SourcesTable from '@/components/SourcesTable.vue';
 
 const {
   sources,

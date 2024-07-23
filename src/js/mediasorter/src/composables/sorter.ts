@@ -68,21 +68,21 @@ export const SCAN_COLS = [
   {
     name: 'action',
     required: true,
-    label: 'Operation',
+    label: '',
     align: 'left',
     field: (row: any) => row.action,
     format: (val: any) => `${val}`,
     sortable: true
   },
-  {
-    name: 'media_type',
-    required: true,
-    label: 'Media type',
-    align: 'left',
-    field: (row: any) => row.media_type,
-    format: (val: any) => `${val}`,
-    sortable: true
-  },
+  // {
+  //   name: 'media_type',
+  //   required: true,
+  //   label: 'Media type',
+  //   align: 'left',
+  //   field: (row: any) => row.media_type,
+  //   format: (val: any) => `${val}`,
+  //   sortable: true
+  // },
   {
     name: 'tv_shows_output',
     required: true,

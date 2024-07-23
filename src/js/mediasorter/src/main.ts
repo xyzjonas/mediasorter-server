@@ -16,9 +16,10 @@ const myApp = createApp(App)
 
 myApp.use(Quasar, {
   config: {
+    dark: 'auto',
     loadingBar: {
       position: 'bottom',
-      color: 'secondary',
+      color: 'primary',
       size: '1rem'
     }
   },
