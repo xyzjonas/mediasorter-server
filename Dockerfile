@@ -1,9 +1,9 @@
-FROM node:20-alpine as fe-build-stage
+FROM node:20-alpine AS fe-build-stage
 COPY ./src/js/mediasorter .
 RUN yarn build
 
 
-FROM python:3.11.1 as be-build-stage
+FROM python:3.11 AS be-build-stage
 COPY pyproject.toml .
 COPY poetry.lock .
 RUN pip install poetry
@@ -14,7 +14,7 @@ RUN poetry build
 
 FROM python:3.11.1-alpine
 
-WORKDIR app
+WORKDIR /app
 
 COPY --from=be-build-stage dist/*.whl wheels/
 RUN pip install --no-cache-dir wheels/*

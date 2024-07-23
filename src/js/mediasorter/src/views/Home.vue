@@ -26,7 +26,7 @@
       v-model:selected="selectedOps"
       :loading="loading"
       loading-label="Fetching scan sources"
-      :rows-per-page-options="[0]"
+      :rows-per-page-options="[0, 20]"
     />
 
     <q-btn
@@ -43,7 +43,6 @@
     <q-expansion-item
       v-if="nokOps.length > 0"
       switch-toggle-side
-      dark
       v-model="expandNok"
       :label="`Unsortable media [ ${nokOps.length} ]`"
     >
@@ -53,7 +52,6 @@
         :bordered="false"
         :wrap-cells="true"
         :columns="FAILED_OP_COLS"
-        :dark="true"
         selection="none"
         :hide-header="true"
         :hide-no-data="true"
@@ -72,7 +70,6 @@
       :bordered="false"
       :wrap-cells="true"
       :columns="FAILED_OP_COLS"
-      :dark="true"
       selection="none"
       :hide-header="true"
       :hide-no-data="true"
@@ -89,7 +86,6 @@
       :bordered="false"
       :wrap-cells="true"
       :columns="FAILED_OP_COLS"
-      :dark="true"
       selection="none"
       :hide-header="true"
       :hide-no-data="true"
