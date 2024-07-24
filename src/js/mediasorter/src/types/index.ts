@@ -1,4 +1,6 @@
-export type Source = {
+import type { MediaSorterConfig } from "./configuration"
+
+type Source = {
   src_path: string
   action: 'move' | 'copy' | 'hardlink' | 'softlink'
   media_type: 'tv' | 'movie' | 'auto'
@@ -6,10 +8,16 @@ export type Source = {
   movies_output: string
 }
 
-export type SortOperation = {
+type SortOperation = {
   input_path: string
   output_path: string
   action: string
   type: string
   exception?: string
+}
+
+export type {
+  Source,
+  SortOperation,
+  MediaSorterConfig,
 }

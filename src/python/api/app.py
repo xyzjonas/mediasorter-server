@@ -13,6 +13,13 @@ from starlette.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
 
+__version__ = "0.3.0"
+
+
+class AppConfiguration(MediaSorterConfig):
+    version: str
+
+
 load_dotenv()
 
 config = read_config()
@@ -20,7 +27,7 @@ config = read_config()
 app = FastAPI(
     title="Mediasorter",
     summary="Remotely sort your media files!",
-    version="0.2.0",
+    version=__version__,
 )
 
 app.add_middleware(
@@ -59,9 +66,9 @@ async def sort(sort_operations: list[Operation]):
     return ops
 
 
-@app.get("/configuration", response_model=MediaSorterConfig)
-def get_config() -> MediaSorterConfig:
-    return config
+@app.get("/configuration", response_model=AppConfiguration)
+def get_config() -> AppConfiguration:
+    return AppConfiguration(**config.dict(), version=__version__)
 
 
 # @app.put("/configuration")

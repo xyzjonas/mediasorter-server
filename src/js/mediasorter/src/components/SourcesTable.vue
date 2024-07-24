@@ -27,12 +27,12 @@
           </q-td>
           <q-td key="action" :props="props">
             <q-icon :name="typeMap[props.row.media_type]?.icon ?? 'question_mark'" class="cursor-pointer q-mr-md" size="1.2rem">
-              <q-tooltip>
+              <q-tooltip anchor="top middle" self="bottom middle">
                 {{ typeMap[props.row.media_type].help }}
               </q-tooltip>
             </q-icon>
             <q-icon :name="actionMap[props.row.action]?.icon ?? 'question_mark'" class="cursor-pointer" size="1.2rem">
-              <q-tooltip>
+              <q-tooltip anchor="top middle" self="bottom middle">
                 {{ actionMap[props.row.action].help }}
               </q-tooltip>
             </q-icon>
@@ -71,7 +71,7 @@ const actionMap: {[key: string]: { icon: string, help:string }} = {
     help: 'Media file will be moved.'
   },
   symlink: {
-    icon: 'link',
+    icon: 'add_link',
     help: 'A symlink will be created.'
   },
 }
@@ -86,7 +86,7 @@ const typeMap: {[key: string]: { icon: string, help:string }} = {
     help: 'Media file will be parsed as a movie only.'
   },
   auto: {
-    icon: 'autorenew',
+    icon: 'auto_mode',
     help: 'Auto media type recognition.'
   },
 }

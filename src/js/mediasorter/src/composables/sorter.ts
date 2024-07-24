@@ -1,7 +1,9 @@
-import type { SortOperation, Source } from '@/types'
+import type { MediaSorterConfig, SortOperation, Source } from '@/types'
 import { useQuasar, type QTableColumn } from 'quasar'
 import { useApi } from './api'
 import { ref } from 'vue'
+
+const configuration = ref<MediaSorterConfig>()
 
 const sources = ref<Source[]>([])
 const loading = ref(false)
@@ -20,6 +22,13 @@ export const useSorter = () => {
     loading.value = true
     get('/scans')
       .then((data) => sources.value = data)
+      .finally(() => (loading.value = false))
+  }
+
+  const fetchConfig = () => {
+    loading.value = true
+    get('/configuration')
+      .then((data) => configuration.value = data)
       .finally(() => (loading.value = false))
   }
 
@@ -44,6 +53,7 @@ export const useSorter = () => {
 
   return {
     fetchSources,
+    fetchConfig,
     scan,
     sort,
     sources,
@@ -51,7 +61,8 @@ export const useSorter = () => {
     sortOperations,
     scanning,
     sorting,
-    sortResult
+    sortResult,
+    configuration,
   }
 }
 
@@ -72,17 +83,8 @@ export const SCAN_COLS = [
     align: 'left',
     field: (row: any) => row.action,
     format: (val: any) => `${val}`,
-    sortable: true
+    sortable: false
   },
-  // {
-  //   name: 'media_type',
-  //   required: true,
-  //   label: 'Media type',
-  //   align: 'left',
-  //   field: (row: any) => row.media_type,
-  //   format: (val: any) => `${val}`,
-  //   sortable: true
-  // },
   {
     name: 'tv_shows_output',
     required: true,
