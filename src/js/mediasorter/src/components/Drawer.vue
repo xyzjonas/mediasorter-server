@@ -19,8 +19,8 @@
         </q-item-section>
       </q-item>
     </q-list>
-    <div class="version">
-      {{ configuration.version }}
+    <div class="version text-right">
+      {{ configuration.version }} (powered by <a href="https://pypi.org/project/multimediasorter" target="_blank">mediasorter</a> {{ configuration.lib_version }})
     </div>
   </div>
 </template>
@@ -48,7 +48,6 @@ onMounted(() => {
   margin-top: auto;
   align-self: flex-end;
   margin-inline: .5rem;
-  font-style: italic;
   font-size: small;
 }
 </style>

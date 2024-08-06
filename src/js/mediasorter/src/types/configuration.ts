@@ -67,4 +67,5 @@ export interface MediaSorterConfig {
     maximum_concurrent_requests: number;
     cache_path?: string;
     version: string;
+    lib_version: string;
 }

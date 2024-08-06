@@ -6,18 +6,21 @@ import argparse
 from distutils.sysconfig import get_python_lib
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from mediasorter import MediaSorter, MediaSorterConfig, read_config
-from mediasorter.lib.config import ScanConfig
-from mediasorter.lib.sort import Operation
 from starlette.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
+from mediasorter import MediaSorter, MediaSorterConfig, read_config
+from mediasorter import __version__ as lib_version
+from mediasorter.lib.config import ScanConfig
+from mediasorter.lib.sort import Operation
 
-__version__ = "0.3.0"
+
+__version__ = "0.3.1"
 
 
 class AppConfiguration(MediaSorterConfig):
     version: str
+    lib_version: str
 
 
 load_dotenv()
@@ -68,7 +71,7 @@ async def sort(sort_operations: list[Operation]):
 
 @app.get("/configuration", response_model=AppConfiguration)
 def get_config() -> AppConfiguration:
-    return AppConfiguration(**config.dict(), version=__version__)
+    return AppConfiguration(**config.dict(), version=__version__, lib_version=lib_version)
 
 
 # @app.put("/configuration")
