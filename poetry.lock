@@ -477,13 +477,13 @@ files = [
 
 [[package]]
 name = "multimediasorter"
-version = "2.0.2"
+version = "2.0.3"
 description = ""
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "multimediasorter-2.0.2-py3-none-any.whl", hash = "sha256:77e64e243c57b4cf0c0ca0c9d0cd1284be5408d721b891d7b00d9381a6d028f9"},
-    {file = "multimediasorter-2.0.2.tar.gz", hash = "sha256:57646f0f9d511874c3a67bbcbeaf345eb4f41bbdd55d9239d52df92fcfd1f691"},
+    {file = "multimediasorter-2.0.3-py3-none-any.whl", hash = "sha256:1bc630b138741e36769e86991150e30636878dde296b739e215ca52d3cf77d7c"},
+    {file = "multimediasorter-2.0.3.tar.gz", hash = "sha256:c7aca6b26946931027df484cbb03a26c7381f408fba98123b3decf300fc20e8a"},
 ]
 
 [package.dependencies]
